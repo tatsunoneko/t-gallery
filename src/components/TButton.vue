@@ -1,5 +1,5 @@
 <template>
-  <div class="btn">
+  <div class="btn" @click="onClick">
     <div :class="['icon', btnName]">
     </div>
   </div>
@@ -43,5 +43,9 @@ export default class TButton extends Vue {
   btnType?: string;
 
   btnName: string = `icon--${this.btnType}`;
+
+  onClick() {
+    this.$emit('click');
+  }
 }
 </script>

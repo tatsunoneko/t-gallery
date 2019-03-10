@@ -1,7 +1,16 @@
 <template>
   <div class="t-gallery" :style="mainStyle">
-    <main-view :img="path"/>
-    <summary-view/>
+    <main-view 
+      :imgs="paths" 
+      :curImgIndex="curPathIndex"
+      @next="onNext"
+      @back="onBack"
+    />
+    <summary-view 
+      :imgs="paths" 
+      :curKey="curPathIndex"
+      @imageChange="imageChange"
+    />
   </div>
 </template>
 
@@ -34,14 +43,15 @@ export default class TGallery extends Vue {
   @Prop()
   height?: string | number;
 
-  mainWidth: string = '500px';
+  mainWidth: string = '550px';
   mainHeight: string = '400px';
   mainStyle = {
     width: this.mainWidth,
     height: this.mainHeight,
   };
 
-  path: string = require('./assets/1556688458.png');
+  paths: string[] = [];
+  curPathIndex: number = 0;
 
   created() {
     if (this.width) {
@@ -57,6 +67,30 @@ export default class TGallery extends Vue {
       } else {
         this.mainHeight = `${this.height}px`;
       }
+    }
+    for (const el of this.imgs) {
+      this.paths.push(el);
+    }
+    this.curPathIndex = 0;
+  }
+
+  imageChange(pathIndex: number) {
+    this.curPathIndex = pathIndex;
+  }
+
+  onNext() {
+    if (this.curPathIndex + 1 > this.paths.length - 1) {
+      this.curPathIndex = 0;
+    } else {
+      this.curPathIndex += 1;
+    }
+  }
+
+  onBack() {
+    if (this.curPathIndex - 1 < 0) {
+      this.curPathIndex = this.paths.length - 1;
+    } else {
+      this.curPathIndex -= 1;
     }
   }
 }
