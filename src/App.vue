@@ -17,13 +17,13 @@ import TGallery from './TGallery.vue';
   },
 })
 export default class App extends Vue {
-  links: string[] = [
-    'https://www.bing.com/th?id=OHR.GrapeHarvest_EN-US9833740254_1920x1080.jpg&rf=NorthMale_1920x1080.jpg&pid=hp',
-    'https://www.bing.com/th?id=OHR.Policewomen_EN-CN1248152433_1920x1080.jpg&rf=NorthMale_1920x1080.jpg&pid=hp',
-    'https://www.bing.com/th?id=OHR.BrittlebushBloom_EN-CN2839869448_1920x1080.jpg&rf=NorthMale_1920x1080.jpg&pid=hp',
-    'https://www.bing.com/th?id=OHR.Cefalu_EN-CN2165487733_1920x1080.jpg&rf=NorthMale_1920x1080.jpg&pid=hp',
-    'https://www.bing.com/th?id=OHR.MardiGrasIndians_EN-CN1798848109_1920x1080.jpg&rf=NorthMale_1920x1080.jpg&pid=hp',
-  ];
+  localPath: string = require('./assets/awdsm.png');
+  links: string[] = [];
+  created() {
+    for (let i = 0; i < 100; i += 1) {
+      this.links.push(`https://bing.ioliu.cn/v1?d=${i}&w=1920&h=1080`);
+    }
+  }
 }
 </script>
 

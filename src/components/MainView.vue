@@ -13,7 +13,9 @@
       </div>
     </div>
     <div class="overlap" v-if="showOverlap" @click="zoomOut">
-      <img class="overlap__inner" :src="imgs[curImgIndex]" :style="overlapImgStyle"/>
+      <div class="overlap__inner" :style="overlapInnerStyle">
+        <img class="overlap__img" :src="imgs[curImgIndex]" :style="overlapImgStyle"/>
+      </div>
     </div>
     <div class="btn-area" style="margin-right: 5px">
       <t-button btnType="prev" @click="onBackBtnClick"/>
@@ -66,8 +68,13 @@
   background: rgba(0, 0, 0, 0.5);
   cursor: zoom-out;
   &__inner {
-    max-width: 100%;
-    max-height: 100%;
+    max-width: 200%;
+    max-height: 200%;
+    z-index: 9999;
+  }
+  &__img {
+    max-width: 200%;
+    max-height: 200%;
     z-index: 9999;
   }
 }
@@ -113,16 +120,26 @@ export default class MainView extends Vue {
   curImgIndex!: number;
 
   scaleNum: number = 1;
+  scalePer: number = 100;
   showOverlap: boolean = false;
   overlapImgStyle = {
     transform: 'scale(1)',
+  };
+  overlapInnerStyle = {
+    height: '100%',
+    width: '100%',
   };
 
   @Watch('showOverlap')
   onShowOverlapChanged() {
     if (this.showOverlap) {
       this.overlapImgStyle.transform = 'scale(1)';
+      this.overlapInnerStyle = {
+        height: '100%',
+        width: '100%',
+      };
       this.scaleNum = 1;
+      this.scalePer = 100;
     }
   }
 
@@ -144,10 +161,14 @@ export default class MainView extends Vue {
 
   onLarger() {
     this.overlapImgStyle.transform = `scale(${this.scaleNum += 0.1})`;
+    this.overlapInnerStyle.height = `${this.scalePer += 10}%`;
+    this.overlapInnerStyle.width = this.overlapInnerStyle.height;
   }
 
   onSamller() {
     this.overlapImgStyle.transform = `scale(${this.scaleNum -= 0.1})`;
+    this.overlapInnerStyle.height = `${this.scalePer -= 10}%`;
+    this.overlapInnerStyle.width = this.overlapInnerStyle.height;
   }
 }
 </script>
