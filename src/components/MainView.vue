@@ -21,7 +21,8 @@
       <t-button btnType="prev" @click="onBackBtnClick"/>
     </div>
     <div class="img-area" style="cursor: zoom-in;" @click="zoomIn">
-      <img class="img-src" :src="imgs[curImgIndex]"/>
+      <loading-logo :visible="isLoading"/>
+      <img class="img-src" :src="imgs[curImgIndex]" v-show="!isLoading" @load="onLoadEnd"/>
     </div>
     <div class="btn-area" style="margin-left: 5px">
       <t-button btnType="next" @click="onNextBtnClick"/>
@@ -106,10 +107,12 @@
 import Vue from 'vue';
 import { Component, Prop, Watch } from 'vue-property-decorator';
 import TButton from './TButton.vue';
+import LoadingLogo from './LoadingLogo.vue';
 
 @Component({
   components: {
     TButton,
+    LoadingLogo,
   },
 })
 export default class MainView extends Vue {
@@ -122,6 +125,7 @@ export default class MainView extends Vue {
   scaleNum: number = 1;
   scalePer: number = 100;
   showOverlap: boolean = false;
+  isLoading: boolean = true;
   overlapImgStyle = {
     transform: 'scale(1)',
   };
@@ -129,6 +133,11 @@ export default class MainView extends Vue {
     height: '100%',
     width: '100%',
   };
+
+  @Watch('curImgIndex')
+  onIndexChange() {
+    this.isLoading = true;
+  }
 
   @Watch('showOverlap')
   onShowOverlapChanged() {
@@ -141,6 +150,10 @@ export default class MainView extends Vue {
       this.scaleNum = 1;
       this.scalePer = 100;
     }
+  }
+
+  onLoadEnd() {
+    this.isLoading = false;
   }
 
   onBackBtnClick() {

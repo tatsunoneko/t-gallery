@@ -15,6 +15,7 @@
     "plugin": "vue-cli-service build --target lib --name TGallery ./src/TGallery.vue"
   },
   "dependencies": {
+    "@types/lodash": "^4.14.123",
     "axios": "^0.18.0",
     "module": "^1.2.5",
     "rollup-plugin-buble": "^0.19.6",
